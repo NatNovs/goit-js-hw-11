@@ -140,3 +140,5 @@ const onScroll = entries => {
 
 const infScroll = new IntersectionObserver(onScroll, variable);
 infScroll.observe(trackEl);
+
+

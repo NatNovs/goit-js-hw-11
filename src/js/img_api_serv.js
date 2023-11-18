@@ -20,7 +20,7 @@ export class ImgApiServ {
       per_page: 40,
       page: this.page,
     });
-   
+  
     try {
       const {
         data: { hits, totalHits },
@@ -31,7 +31,7 @@ export class ImgApiServ {
       console.error(error.response);
     }
   }
- 
+
   incrementPage() {
     this.page += 1;
   }
