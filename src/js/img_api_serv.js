@@ -20,17 +20,14 @@ export class ImgApiServ {
       per_page: 40,
       page: this.page,
     });
-  
-    try {
+
       const {
         data: { hits, totalHits },
       } = await axios.get(BASE_URL, { params });
 
       return { hits, totalHits };
-    } catch (error) {
-      console.error(error.response);
-    }
-  }
+    } 
+
 
   incrementPage() {
     this.page += 1;

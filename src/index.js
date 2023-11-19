@@ -56,27 +56,35 @@ function onCheckInput(totalHits) {
   Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`, optionsNtf);
 }
 
-function renderOnRequest() {
-  imgApiServ.fetchImg().then(({ hits, totalHits }) => {
-    if (imgApiServ.page === 1) {
-      onCheckInput(totalHits);
-    }
-    
 
-    appendPicsMarkup(hits);
-    lightbox.refresh();
-    infScroll.observe(trackEl);
-    if (imgApiServ.page === Math.ceil(totalHits / 40)) {
-      infScroll.unobserve(trackEl);
+async function renderOnRequest() {
+  await imgApiServ.fetchImg(({ hits, totalHits }) => {
+
+    try {
+      if (imgApiServ.page === 1) {
+        onCheckInput(totalHits);
+      }
+      
+      appendPicsMarkup(hits);
       lightbox.refresh();
-      return Notiflix.Notify.info(
-        " 😒 We're sorry, but you've reached the end of search results.",
-        optionsNtf
-      );
+      infScroll.observe(trackEl);
+      if (imgApiServ.page === Math.ceil(totalHits / 40)) {
+        infScroll.unobserve(trackEl);
+        lightbox.refresh();
+        return Notiflix.Notify.info(
+          " 😒 We're sorry, but you've reached the end of search results.",
+          optionsNtf
+        );
+      }
+      imgApiServ.incrementPage();
+      }
+    catch (error) {
+      console.log(error);
     }
-    imgApiServ.incrementPage();
-  });
-}
+  }
+)}
+
+
 
 
 function appendPicsMarkup(hits) {
